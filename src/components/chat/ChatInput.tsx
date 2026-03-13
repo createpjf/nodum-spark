@@ -1,7 +1,6 @@
 import { useState, useRef } from "react";
-import { Send, Mic, Plus, File, Image, X } from "lucide-react";
+import { Send, Mic, Plus, SlidersHorizontal, File, Image, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 interface AttachedFile {
   name: string;
@@ -11,28 +10,20 @@ interface AttachedFile {
 interface ChatInputProps {
   onSend: (message: string) => void;
   disabled?: boolean;
+  onActionsOpen: () => void;
+  onSettingsOpen: () => void;
+  webEnabled?: boolean;
 }
 
-const ChatInput = ({ onSend, disabled }: ChatInputProps) => {
+const ChatInput = ({ onSend, disabled, onActionsOpen, onSettingsOpen, webEnabled }: ChatInputProps) => {
   const [value, setValue] = useState("");
   const [attachments, setAttachments] = useState<AttachedFile[]>([]);
-  const [popoverOpen, setPopoverOpen] = useState(false);
-  const fileRef = useRef<HTMLInputElement>(null);
-  const imageRef = useRef<HTMLInputElement>(null);
 
   const handleSend = () => {
     if ((!value.trim() && attachments.length === 0) || disabled) return;
     onSend(value.trim());
     setValue("");
     setAttachments([]);
-  };
-
-  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>, type: "file" | "image") => {
-    const files = e.target.files;
-    if (!files) return;
-    const newAttachments = Array.from(files).map((f) => ({ name: f.name, type }));
-    setAttachments((prev) => [...prev, ...newAttachments]);
-    e.target.value = "";
   };
 
   const removeAttachment = (index: number) => {
@@ -69,65 +60,64 @@ const ChatInput = ({ onSend, disabled }: ChatInputProps) => {
         )}
       </AnimatePresence>
 
-      <div className="rounded-full border border-border bg-card flex items-center gap-1 px-2 py-1 shadow-sm">
-        {/* Attachment button */}
-        <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
-          <PopoverTrigger asChild>
+      {/* Input area */}
+      <div className="rounded-2xl border border-border bg-card shadow-sm overflow-hidden">
+        <div className="flex items-center gap-1 px-2 py-1">
+          <textarea
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                handleSend();
+              }
+            }}
+            placeholder="Ask anything..."
+            rows={1}
+            className="flex-1 bg-transparent resize-none text-[14px] text-foreground placeholder:text-muted-foreground outline-none py-2.5 px-2 max-h-32 scrollbar-none"
+          />
+          <button className="p-2 text-muted-foreground hover:text-foreground transition-colors">
+            <Mic size={18} />
+          </button>
+        </div>
+
+        {/* Bottom toolbar */}
+        <div className="flex items-center justify-between px-2 pb-2">
+          <div className="flex items-center gap-1">
             <motion.button
               whileTap={{ scale: 0.9 }}
-              className="p-2 rounded-full text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
+              onClick={onActionsOpen}
+              className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
             >
               <Plus size={18} />
             </motion.button>
-          </PopoverTrigger>
-          <PopoverContent align="start" side="top" className="w-48 p-2 rounded-xl">
-            <button
-              onClick={() => { fileRef.current?.click(); setPopoverOpen(false); }}
-              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium hover:bg-accent transition-colors text-foreground"
+            <motion.button
+              whileTap={{ scale: 0.9 }}
+              onClick={onSettingsOpen}
+              className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
             >
-              <File size={16} className="text-muted-foreground" />
-              Upload File
-            </button>
-            <button
-              onClick={() => { imageRef.current?.click(); setPopoverOpen(false); }}
-              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium hover:bg-accent transition-colors text-foreground"
+              <SlidersHorizontal size={16} />
+            </motion.button>
+            {webEnabled && (
+              <span className="text-[10px] px-2 py-1 rounded-full bg-primary/10 text-primary font-semibold">
+                Web
+              </span>
+            )}
+          </div>
+
+          {value.trim() || attachments.length > 0 ? (
+            <motion.button
+              whileTap={{ scale: 0.9 }}
+              onClick={handleSend}
+              disabled={disabled}
+              className="p-2 rounded-lg bg-primary text-primary-foreground disabled:opacity-40"
             >
-              <Image size={16} className="text-muted-foreground" />
-              Upload Image
-            </button>
-          </PopoverContent>
-        </Popover>
-
-        <input ref={fileRef} type="file" className="hidden" onChange={(e) => handleFileSelect(e, "file")} multiple />
-        <input ref={imageRef} type="file" accept="image/*" className="hidden" onChange={(e) => handleFileSelect(e, "image")} multiple />
-
-        <textarea
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" && !e.shiftKey) {
-              e.preventDefault();
-              handleSend();
-            }
-          }}
-          placeholder="Chat with Nodum..."
-          rows={1}
-          className="flex-1 bg-transparent resize-none text-[14px] text-foreground placeholder:text-muted-foreground outline-none py-2.5 max-h-32 scrollbar-none"
-        />
-        {value.trim() || attachments.length > 0 ? (
-          <motion.button
-            whileTap={{ scale: 0.9 }}
-            onClick={handleSend}
-            disabled={disabled}
-            className="p-2 rounded-full bg-primary text-primary-foreground disabled:opacity-40"
-          >
-            <Send size={16} />
-          </motion.button>
-        ) : (
-          <button className="p-2 text-muted-foreground">
-            <Mic size={18} />
-          </button>
-        )}
+              <Send size={16} />
+            </motion.button>
+          ) : (
+            <div className="w-9" />
+          )}
+        </div>
       </div>
     </div>
   );

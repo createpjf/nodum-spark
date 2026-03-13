@@ -1,91 +1,95 @@
 import { motion } from "framer-motion";
-import { ArrowLeft, User, Mail, Bell, Shield, Moon, LogOut, ChevronRight, Sparkles } from "lucide-react";
+import {
+  X, Info, User, CreditCard, BarChart3, Zap,
+  Palette, Volume2, Bell, Shield, Vibrate, LogOut, ChevronRight,
+} from "lucide-react";
 import { useNavigate } from "react-router-dom";
-
-const menuSections = [
-  {
-    title: "Account",
-    items: [
-      { icon: User, label: "Edit Profile", action: "profile" },
-      { icon: Mail, label: "Email & Notifications", action: "email" },
-      { icon: Shield, label: "Privacy & Security", action: "privacy" },
-    ],
-  },
-  {
-    title: "Preferences",
-    items: [
-      { icon: Moon, label: "Appearance", action: "appearance" },
-      { icon: Bell, label: "Notifications", action: "notifications" },
-    ],
-  },
-];
+import { Switch } from "@/components/ui/switch";
+import { useState } from "react";
+import { Separator } from "@/components/ui/separator";
 
 const Profile = () => {
   const navigate = useNavigate();
+  const [haptic, setHaptic] = useState(true);
+
+  const sections = [
+    {
+      items: [
+        { icon: User, label: "Profile", value: "" },
+        { icon: CreditCard, label: "Billing", value: "Free" },
+        { icon: BarChart3, label: "Usage", value: "" },
+      ],
+    },
+    {
+      items: [
+        { icon: Zap, label: "Capabilities", value: "" },
+      ],
+    },
+    {
+      items: [
+        { icon: Palette, label: "Appearance", value: "System" },
+        { icon: Volume2, label: "Speech language", value: "EN" },
+        { icon: Bell, label: "Notifications", value: "" },
+        { icon: Shield, label: "Privacy", value: "" },
+      ],
+    },
+  ];
 
   return (
     <div className="h-screen w-screen max-w-[430px] mx-auto overflow-y-auto bg-background">
       {/* Header */}
-      <div className="flex items-center gap-3 px-4 pt-14 pb-4">
+      <div className="flex items-center justify-between px-4 pt-14 pb-3">
         <motion.button whileTap={{ scale: 0.9 }} onClick={() => navigate(-1)} className="p-2 -ml-2">
-          <ArrowLeft size={22} className="text-foreground" />
+          <X size={22} className="text-foreground" />
         </motion.button>
-        <h1 className="text-lg font-semibold text-foreground">Profile</h1>
+        <h1 className="text-lg font-semibold text-foreground">Settings</h1>
+        <button className="p-2 -mr-2">
+          <Info size={20} className="text-muted-foreground" />
+        </button>
       </div>
 
       <div className="px-5 pb-10">
-        {/* Avatar + Name */}
-        <div className="flex flex-col items-center mb-6">
-          <div className="w-20 h-20 rounded-full bg-secondary flex items-center justify-center mb-3">
-            <span className="text-2xl font-bold text-secondary-foreground">U</span>
-          </div>
-          <h2 className="text-xl font-bold text-foreground">User</h2>
-          <p className="text-sm text-muted-foreground">user@example.com</p>
+        {/* Email field */}
+        <div className="mb-5 rounded-xl bg-secondary px-4 py-3">
+          <span className="text-sm text-foreground">user@example.com</span>
         </div>
 
-        {/* Pro upsell */}
-        <motion.button
-          whileTap={{ scale: 0.97 }}
-          onClick={() => navigate("/subscription")}
-          className="w-full flex items-center gap-3 px-4 py-4 rounded-2xl bg-primary/5 border border-primary/20 mb-6"
-        >
-          <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
-            <Sparkles size={20} className="text-primary" />
-          </div>
-          <div className="flex-1 text-left">
-            <span className="font-semibold text-sm text-foreground">Upgrade to Pro</span>
-            <p className="text-xs text-muted-foreground">Unlock all models and features</p>
-          </div>
-          <ChevronRight size={16} className="text-muted-foreground" />
-        </motion.button>
-
-        {/* Menu sections */}
-        {menuSections.map((section) => (
-          <div key={section.title} className="mb-4">
-            <h3 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground px-1 mb-2">
-              {section.title}
-            </h3>
-            <div className="rounded-2xl border border-border bg-card overflow-hidden">
-              {section.items.map((item, i) => (
-                <button
-                  key={item.action}
-                  className={`w-full flex items-center gap-3 px-4 py-3.5 hover:bg-accent transition-colors ${
-                    i < section.items.length - 1 ? "border-b border-border" : ""
-                  }`}
-                >
-                  <item.icon size={18} className="text-muted-foreground" />
-                  <span className="flex-1 text-left text-sm font-medium text-foreground">{item.label}</span>
-                  <ChevronRight size={16} className="text-muted-foreground" />
-                </button>
-              ))}
-            </div>
+        {/* Sections */}
+        {sections.map((section, si) => (
+          <div key={si} className="mb-3 rounded-2xl border border-border bg-card overflow-hidden">
+            {section.items.map((item, i) => (
+              <button
+                key={item.label}
+                className={`w-full flex items-center gap-3 px-4 py-3.5 hover:bg-accent transition-colors ${
+                  i < section.items.length - 1 ? "border-b border-border" : ""
+                }`}
+              >
+                <item.icon size={18} className="text-muted-foreground" />
+                <span className="flex-1 text-left text-sm font-medium text-foreground">{item.label}</span>
+                {item.value && (
+                  <span className="text-sm text-muted-foreground mr-1">{item.value}</span>
+                )}
+                <ChevronRight size={16} className="text-muted-foreground" />
+              </button>
+            ))}
           </div>
         ))}
 
-        {/* Sign out */}
-        <button className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl border border-destructive/20 text-destructive text-sm font-medium mt-4 hover:bg-destructive/5 transition-colors">
+        {/* Haptic feedback */}
+        <div className="mb-3 rounded-2xl border border-border bg-card overflow-hidden">
+          <div className="flex items-center gap-3 px-4 py-3.5">
+            <Vibrate size={18} className="text-muted-foreground" />
+            <span className="flex-1 text-sm font-medium text-foreground">Haptic feedback</span>
+            <Switch checked={haptic} onCheckedChange={setHaptic} />
+          </div>
+        </div>
+
+        <Separator className="my-4" />
+
+        {/* Log out */}
+        <button className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl border border-destructive/20 text-destructive text-sm font-medium hover:bg-destructive/5 transition-colors">
           <LogOut size={16} />
-          Sign Out
+          Log out
         </button>
       </div>
     </div>

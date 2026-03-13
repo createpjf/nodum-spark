@@ -121,11 +121,24 @@ const ChatView = ({ title, hasMessages, onMenuOpen }: ChatViewProps) => {
       {/* Content */}
       {messages.length === 0 ? (
         <div className="flex-1 flex flex-col items-center justify-center px-8">
-          <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-6">
-            <Sparkles size={28} className="text-primary" />
-          </div>
-          <h2 className="text-xl font-semibold text-foreground mb-1">{greeting()},</h2>
-          <p className="text-muted-foreground text-center">How can I help you today?</p>
+          {incognito ? (
+            <>
+              <div className="w-14 h-14 rounded-2xl bg-muted flex items-center justify-center mb-6">
+                <EyeOff size={28} className="text-muted-foreground" />
+              </div>
+              <p className="text-sm text-muted-foreground text-center max-w-[280px] leading-relaxed">
+                Incognito chats can't access memory. They aren't saved to history, added to memory, or used to train models.
+              </p>
+            </>
+          ) : (
+            <>
+              <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-6">
+                <Sparkles size={28} className="text-primary" />
+              </div>
+              <h2 className="text-xl font-semibold text-foreground mb-1">{greeting()},</h2>
+              <p className="text-muted-foreground text-center">How can I help you today?</p>
+            </>
+          )}
         </div>
       ) : (
         <div ref={scrollRef} className="flex-1 overflow-y-auto scrollbar-none px-4 py-4">

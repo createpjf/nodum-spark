@@ -12,48 +12,62 @@ const conversations = [
   { id: "6", title: "Database Schema Review", preview: "Review this PostgreSQL schema and...", time: "Mar 2" },
 ];
 
+const starredProjects = [
+  { id: "p1", name: "Research Assistant", desc: "AI-powered research tool" },
+  { id: "p2", name: "Content Engine", desc: "Automated content pipeline" },
+];
+
 const Index = () => {
   const [activeChat, setActiveChat] = useState<string | null>(null);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const activeConv = conversations.find((c) => c.id === activeChat);
 
   return (
     <div className="h-screen w-screen max-w-[430px] mx-auto overflow-hidden relative bg-background">
-      {/* Environment blur bg */}
-      <div className="absolute inset-0 bg-gradient-to-b from-secondary/30 via-background to-background pointer-events-none" />
-
-      <AnimatePresence mode="wait">
-        {!activeChat ? (
-          <motion.div
-            key="list"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            transition={{ duration: 0.2 }}
-            className="h-full relative z-10"
-          >
-            <ConversationList
-              conversations={conversations}
-              activeId=""
-              onSelect={(id) => setActiveChat(id)}
-              onNew={() => {}}
+      {/* Sidebar overlay */}
+      <AnimatePresence>
+        {sidebarOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="absolute inset-0 bg-foreground/20 z-40"
+              onClick={() => setSidebarOpen(false)}
             />
-          </motion.div>
-        ) : (
-          <motion.div
-            key="chat"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 20 }}
-            transition={{ duration: 0.2 }}
-            className="h-full relative z-10"
-          >
-            <ChatView
-              title={activeConv?.title || "New Chat"}
-              onBack={() => setActiveChat(null)}
-            />
-          </motion.div>
+            <motion.div
+              initial={{ x: "-100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "-100%" }}
+              transition={{ type: "spring", damping: 30, stiffness: 300 }}
+              className="absolute inset-y-0 left-0 w-[85%] z-50"
+            >
+              <ConversationList
+                conversations={conversations}
+                starredProjects={starredProjects}
+                activeId={activeChat || ""}
+                onSelect={(id) => {
+                  setActiveChat(id);
+                  setSidebarOpen(false);
+                }}
+                onNew={() => {
+                  setActiveChat("new");
+                  setSidebarOpen(false);
+                }}
+              />
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
+
+      {/* Main chat view */}
+      <ChatView
+        title={activeConv?.title || ""}
+        hasMessages={!!activeChat && activeChat !== "new"}
+        onMenuOpen={() => setSidebarOpen(true)}
+        onBack={() => setActiveChat(null)}
+      />
     </div>
   );
 };

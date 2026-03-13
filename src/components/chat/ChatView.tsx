@@ -81,7 +81,7 @@ const ChatView = ({ title, hasMessages, onMenuOpen }: ChatViewProps) => {
           <Menu size={22} className="text-foreground" />
         </motion.button>
         <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-secondary">
-          <span className="text-[13px] font-semibold text-foreground">Nodum 4o</span>
+          <span className="text-[13px] font-semibold text-foreground">Gemini 3 Pro</span>
           <ChevronDown size={14} className="text-muted-foreground" />
         </button>
         <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center">

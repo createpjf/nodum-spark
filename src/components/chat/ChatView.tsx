@@ -43,6 +43,7 @@ const ChatView = ({ title, hasMessages, onMenuOpen }: ChatViewProps) => {
   const [settingsDrawerOpen, setSettingsDrawerOpen] = useState(false);
   const [actionsDrawerOpen, setActionsDrawerOpen] = useState(false);
   const [webEnabled, setWebEnabled] = useState(false);
+  const [incognito, setIncognito] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const imageRef = useRef<HTMLInputElement>(null);

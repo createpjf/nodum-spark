@@ -6,6 +6,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { Switch } from "@/components/ui/switch";
 import { useState } from "react";
+import { Separator } from "@/components/ui/separator";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -35,7 +36,7 @@ const Profile = () => {
   ];
 
   return (
-    <div className="h-screen w-screen max-w-[430px] mx-auto overflow-y-auto">
+    <div className="h-screen w-screen max-w-[430px] mx-auto overflow-y-auto bg-background">
       {/* Header */}
       <div className="flex items-center justify-between px-4 pt-14 pb-3">
         <motion.button whileTap={{ scale: 0.9 }} onClick={() => navigate(-1)} className="p-2 -ml-2">
@@ -49,18 +50,18 @@ const Profile = () => {
 
       <div className="px-5 pb-10">
         {/* Email field */}
-        <div className="mb-5 rounded-2xl glass-subtle px-4 py-3">
+        <div className="mb-5 rounded-xl bg-secondary px-4 py-3">
           <span className="text-sm text-foreground">user@example.com</span>
         </div>
 
         {/* Sections */}
         {sections.map((section, si) => (
-          <div key={si} className="mb-3 rounded-2xl glass overflow-hidden">
+          <div key={si} className="mb-3 rounded-2xl border border-border bg-card overflow-hidden">
             {section.items.map((item, i) => (
               <button
                 key={item.label}
-                className={`w-full flex items-center gap-3 px-4 py-3.5 hover:bg-[rgba(255,255,255,0.3)] transition-all ${
-                  i < section.items.length - 1 ? "border-b border-[rgba(255,255,255,0.3)]" : ""
+                className={`w-full flex items-center gap-3 px-4 py-3.5 hover:bg-accent transition-colors ${
+                  i < section.items.length - 1 ? "border-b border-border" : ""
                 }`}
               >
                 <item.icon size={18} className="text-muted-foreground" />
@@ -75,7 +76,7 @@ const Profile = () => {
         ))}
 
         {/* Haptic feedback */}
-        <div className="mb-3 rounded-2xl glass overflow-hidden">
+        <div className="mb-3 rounded-2xl border border-border bg-card overflow-hidden">
           <div className="flex items-center gap-3 px-4 py-3.5">
             <Vibrate size={18} className="text-muted-foreground" />
             <span className="flex-1 text-sm font-medium text-foreground">Haptic feedback</span>
@@ -83,10 +84,10 @@ const Profile = () => {
           </div>
         </div>
 
-        <div className="h-px bg-[rgba(255,255,255,0.4)] my-4" />
+        <Separator className="my-4" />
 
         {/* Log out */}
-        <button className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl glass text-destructive text-sm font-medium hover:bg-[rgba(255,100,100,0.1)] transition-all">
+        <button className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl border border-destructive/20 text-destructive text-sm font-medium hover:bg-destructive/5 transition-colors">
           <LogOut size={16} />
           Log out
         </button>

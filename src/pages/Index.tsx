@@ -23,7 +23,7 @@ const Index = () => {
   const activeConv = conversations.find((c) => c.id === activeChat);
 
   return (
-    <div className="h-screen w-screen max-w-[430px] mx-auto overflow-hidden relative">
+    <div className="h-screen w-screen max-w-[430px] mx-auto overflow-hidden relative bg-background">
       {/* Sidebar overlay */}
       <AnimatePresence>
         {sidebarOpen && (
@@ -33,7 +33,7 @@ const Index = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="absolute inset-0 glass-overlay z-40"
+              className="absolute inset-0 bg-foreground/20 z-40"
               onClick={() => setSidebarOpen(false)}
             />
             <motion.div

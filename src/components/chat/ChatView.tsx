@@ -86,16 +86,16 @@ const ChatView = ({ title, hasMessages, onMenuOpen }: ChatViewProps) => {
   };
 
   return (
-    <div className="flex flex-col h-full">
-      {/* Header — glass strip */}
-      <div className="flex items-center justify-between px-4 pt-14 pb-3 glass-subtle">
+    <div className="flex flex-col h-full bg-background">
+      {/* Header */}
+      <div className="flex items-center justify-between px-4 pt-14 pb-3">
         <motion.button whileTap={{ scale: 0.9 }} onClick={onMenuOpen} className="p-2 -ml-2">
           <Menu size={22} className="text-foreground" />
         </motion.button>
         <div className="flex flex-col items-center">
           <button
             onClick={() => setModelDrawerOpen(true)}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full glass glass-hover"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-secondary"
           >
             <span className="text-[13px] font-semibold text-foreground">{selectedModelName}</span>
             <ChevronDown size={14} className="text-muted-foreground" />
@@ -107,8 +107,8 @@ const ChatView = ({ title, hasMessages, onMenuOpen }: ChatViewProps) => {
         <motion.button
           whileTap={{ scale: 0.9 }}
           onClick={() => setIncognito(!incognito)}
-          className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${
-            incognito ? "glass bg-primary/15" : "glass-subtle"
+          className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${
+            incognito ? "bg-primary/10" : "bg-secondary"
           }`}
         >
           {incognito ? (
@@ -124,7 +124,7 @@ const ChatView = ({ title, hasMessages, onMenuOpen }: ChatViewProps) => {
         <div className="flex-1 flex flex-col items-center justify-center px-8">
           {incognito ? (
             <>
-              <div className="w-14 h-14 rounded-2xl glass flex items-center justify-center mb-6">
+              <div className="w-14 h-14 rounded-2xl bg-muted flex items-center justify-center mb-6">
                 <EyeOff size={28} className="text-muted-foreground" />
               </div>
               <p className="text-sm text-muted-foreground text-center max-w-[280px] leading-relaxed">
@@ -133,7 +133,7 @@ const ChatView = ({ title, hasMessages, onMenuOpen }: ChatViewProps) => {
             </>
           ) : (
             <>
-              <div className="w-14 h-14 rounded-2xl glass flex items-center justify-center mb-6">
+              <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-6">
                 <Sparkles size={28} className="text-primary" />
               </div>
               <h2 className="text-xl font-semibold text-foreground mb-1">{greeting()},</h2>

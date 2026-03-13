@@ -17,7 +17,7 @@ const SettingsDrawer = ({ open, onClose, webEnabled, onWebToggle }: SettingsDraw
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 glass-overlay z-50"
+            className="absolute inset-0 bg-foreground/30 z-50"
             onClick={onClose}
           />
           <motion.div
@@ -25,7 +25,7 @@ const SettingsDrawer = ({ open, onClose, webEnabled, onWebToggle }: SettingsDraw
             animate={{ y: 0 }}
             exit={{ y: "100%" }}
             transition={{ type: "spring", damping: 30, stiffness: 300 }}
-            className="absolute bottom-0 left-0 right-0 z-50 glass-strong rounded-t-3xl"
+            className="absolute bottom-0 left-0 right-0 z-50 bg-card rounded-t-2xl border-t border-border"
           >
             {/* Handle */}
             <div className="flex justify-center pt-3 pb-1">
@@ -36,7 +36,7 @@ const SettingsDrawer = ({ open, onClose, webEnabled, onWebToggle }: SettingsDraw
               <h3 className="text-lg font-bold text-foreground mb-4">Settings</h3>
 
               {/* Web Search */}
-              <div className="rounded-2xl glass-subtle p-4 mb-3">
+              <div className="rounded-xl border border-border bg-accent/50 p-4 mb-3">
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">
                     <span className="font-semibold text-sm text-foreground">Web Enabled</span>
@@ -45,13 +45,13 @@ const SettingsDrawer = ({ open, onClose, webEnabled, onWebToggle }: SettingsDraw
                   <button
                     onClick={() => onWebToggle(!webEnabled)}
                     className={`relative w-12 h-7 rounded-full transition-colors ${
-                      webEnabled ? "bg-primary/80" : "bg-[rgba(0,0,0,0.1)]"
+                      webEnabled ? "bg-primary" : "bg-muted"
                     }`}
                   >
                     <motion.div
                       animate={{ x: webEnabled ? 20 : 2 }}
                       transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                      className="absolute top-1 w-5 h-5 rounded-full bg-white shadow-sm"
+                      className="absolute top-1 w-5 h-5 rounded-full bg-card shadow-sm"
                     />
                   </button>
                 </div>
@@ -66,7 +66,7 @@ const SettingsDrawer = ({ open, onClose, webEnabled, onWebToggle }: SettingsDraw
                       Google (best results)
                     </label>
                     <label className="flex items-center gap-3 text-sm text-muted-foreground">
-                      <div className="w-5 h-5 rounded-full border-2 border-[rgba(0,0,0,0.15)]" />
+                      <div className="w-5 h-5 rounded-full border-2 border-border" />
                       Bing
                     </label>
                   </div>
@@ -74,7 +74,7 @@ const SettingsDrawer = ({ open, onClose, webEnabled, onWebToggle }: SettingsDraw
               </div>
 
               {/* System Prompts */}
-              <div className="rounded-2xl glass-subtle p-4 mb-3">
+              <div className="rounded-xl border border-border bg-accent/50 p-4 mb-3">
                 <div className="flex items-center justify-between">
                   <span className="font-semibold text-sm text-foreground">System Prompts</span>
                   <button className="text-xs font-medium text-primary">+ Add</button>
@@ -85,7 +85,7 @@ const SettingsDrawer = ({ open, onClose, webEnabled, onWebToggle }: SettingsDraw
               </div>
 
               {/* Advanced Settings */}
-              <button className="w-full rounded-2xl glass-subtle p-4 flex items-center justify-between">
+              <button className="w-full rounded-xl border border-border bg-accent/50 p-4 flex items-center justify-between">
                 <span className="font-semibold text-sm text-foreground">Advanced Settings</span>
                 <ChevronDown size={16} className="text-muted-foreground" />
               </button>

@@ -59,7 +59,7 @@ const ModelSelectorDrawer = ({ open, onClose, selectedModel, onSelectModel }: Mo
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 glass-overlay z-50"
+            className="absolute inset-0 bg-foreground/30 z-50"
             onClick={onClose}
           />
           <motion.div
@@ -67,7 +67,7 @@ const ModelSelectorDrawer = ({ open, onClose, selectedModel, onSelectModel }: Mo
             animate={{ y: 0 }}
             exit={{ y: "100%" }}
             transition={{ type: "spring", damping: 30, stiffness: 300 }}
-            className="absolute bottom-0 left-0 right-0 z-50 glass-strong rounded-t-3xl max-h-[75%] flex flex-col"
+            className="absolute bottom-0 left-0 right-0 z-50 bg-card rounded-t-2xl max-h-[75%] flex flex-col border-t border-border"
           >
             {/* Handle */}
             <div className="flex justify-center pt-3 pb-1">
@@ -88,8 +88,8 @@ const ModelSelectorDrawer = ({ open, onClose, selectedModel, onSelectModel }: Mo
                 <button
                   key={t}
                   onClick={() => setTab(t)}
-                  className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all ${
-                    tab === t ? "bg-primary/80 backdrop-blur-xl text-primary-foreground border border-[rgba(255,255,255,0.3)]" : "text-muted-foreground hover:bg-[rgba(255,255,255,0.4)]"
+                  className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${
+                    tab === t ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-accent"
                   }`}
                 >
                   {t}
@@ -110,7 +110,7 @@ const ModelSelectorDrawer = ({ open, onClose, selectedModel, onSelectModel }: Mo
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder="Search models..."
-                  className="w-full px-3 py-2 rounded-xl glass-subtle text-foreground text-sm placeholder:text-muted-foreground outline-none"
+                  className="w-full px-3 py-2 rounded-lg bg-accent text-foreground text-sm placeholder:text-muted-foreground outline-none border border-border"
                 />
               </div>
             )}
@@ -126,13 +126,13 @@ const ModelSelectorDrawer = ({ open, onClose, selectedModel, onSelectModel }: Mo
                       onClose();
                     }
                   }}
-                  className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl mb-1 transition-all ${
+                  className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-xl mb-1 transition-colors ${
                     selectedModel === model.id
-                      ? "glass border-primary/30 shadow-md"
-                      : "border border-transparent hover:bg-[rgba(255,255,255,0.35)]"
+                      ? "border-2 border-primary bg-primary/5"
+                      : "border border-transparent hover:bg-accent"
                   } ${model.pro ? "opacity-70" : ""}`}
                 >
-                  <div className="w-9 h-9 rounded-xl glass-subtle flex items-center justify-center text-sm font-bold text-foreground shrink-0">
+                  <div className="w-9 h-9 rounded-lg bg-secondary flex items-center justify-center text-sm font-bold text-foreground shrink-0">
                     {model.icon}
                   </div>
                   <div className="flex-1 text-left">
@@ -144,7 +144,7 @@ const ModelSelectorDrawer = ({ open, onClose, selectedModel, onSelectModel }: Mo
                     {model.tags.length > 0 && (
                       <div className="flex gap-1.5 mt-1">
                         {model.tags.map((tag) => (
-                          <span key={tag} className="text-[10px] px-2 py-0.5 rounded-full glass-subtle text-muted-foreground font-medium">
+                          <span key={tag} className="text-[10px] px-2 py-0.5 rounded-full bg-secondary text-muted-foreground font-medium">
                             {tag}
                           </span>
                         ))}

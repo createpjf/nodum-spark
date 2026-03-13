@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Menu, ChevronDown, Sparkles } from "lucide-react";
+import { Menu, ChevronDown, Sparkles, EyeOff, Eye } from "lucide-react";
 import ChatBubble from "./ChatBubble";
 import ChatInput from "./ChatInput";
 import TypingIndicator from "./TypingIndicator";

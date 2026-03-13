@@ -91,16 +91,31 @@ const ChatView = ({ title, hasMessages, onMenuOpen }: ChatViewProps) => {
         <motion.button whileTap={{ scale: 0.9 }} onClick={onMenuOpen} className="p-2 -ml-2">
           <Menu size={22} className="text-foreground" />
         </motion.button>
-        <button
-          onClick={() => setModelDrawerOpen(true)}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-secondary"
-        >
-          <span className="text-[13px] font-semibold text-foreground">{selectedModelName}</span>
-          <ChevronDown size={14} className="text-muted-foreground" />
-        </button>
-        <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center">
-          <span className="text-xs font-semibold text-secondary-foreground">U</span>
+        <div className="flex flex-col items-center">
+          <button
+            onClick={() => setModelDrawerOpen(true)}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-secondary"
+          >
+            <span className="text-[13px] font-semibold text-foreground">{selectedModelName}</span>
+            <ChevronDown size={14} className="text-muted-foreground" />
+          </button>
+          {incognito && (
+            <span className="text-[11px] text-muted-foreground mt-0.5">Incognito chat</span>
+          )}
         </div>
+        <motion.button
+          whileTap={{ scale: 0.9 }}
+          onClick={() => setIncognito(!incognito)}
+          className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${
+            incognito ? "bg-primary/10" : "bg-secondary"
+          }`}
+        >
+          {incognito ? (
+            <EyeOff size={18} className="text-primary" />
+          ) : (
+            <Eye size={18} className="text-muted-foreground" />
+          )}
+        </motion.button>
       </div>
 
       {/* Content */}

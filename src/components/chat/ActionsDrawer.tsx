@@ -36,7 +36,7 @@ const ActionsDrawer = ({ open, onClose, onFileSelect, onImageSelect }: ActionsDr
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 bg-foreground/30 z-50"
+            className="absolute inset-0 glass-overlay z-50"
             onClick={onClose}
           />
           <motion.div
@@ -44,7 +44,7 @@ const ActionsDrawer = ({ open, onClose, onFileSelect, onImageSelect }: ActionsDr
             animate={{ y: 0 }}
             exit={{ y: "100%" }}
             transition={{ type: "spring", damping: 30, stiffness: 300 }}
-            className="absolute bottom-0 left-0 right-0 z-50 bg-card rounded-t-2xl border-t border-border"
+            className="absolute bottom-0 left-0 right-0 z-50 glass-strong rounded-t-3xl"
           >
             {/* Handle */}
             <div className="flex justify-center pt-3 pb-1">
@@ -58,14 +58,14 @@ const ActionsDrawer = ({ open, onClose, onFileSelect, onImageSelect }: ActionsDr
                 <button
                   key={action.key}
                   onClick={() => !action.pro && handleAction(action.key)}
-                  className={`w-full flex items-center gap-4 px-2 py-3.5 rounded-xl transition-colors ${
-                    action.pro ? "opacity-50" : "hover:bg-accent"
+                  className={`w-full flex items-center gap-4 px-2 py-3.5 rounded-2xl transition-all ${
+                    action.pro ? "opacity-50" : "hover:bg-[rgba(255,255,255,0.4)]"
                   }`}
                 >
                   <action.icon size={20} className="text-foreground shrink-0" />
                   <span className="text-sm font-medium text-foreground">{action.label}</span>
                   {action.pro && (
-                    <span className="text-[10px] px-2 py-0.5 rounded bg-primary/10 text-primary font-semibold ml-1">
+                    <span className="text-[10px] px-2 py-0.5 rounded-full glass-subtle text-primary font-semibold ml-1">
                       PRO
                     </span>
                   )}

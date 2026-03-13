@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { Send, Mic, Plus, SlidersHorizontal, File, Image, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -47,7 +47,7 @@ const ChatInput = ({ onSend, disabled, onActionsOpen, onSettingsOpen, webEnabled
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.8 }}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-secondary text-secondary-foreground text-xs font-medium"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full glass-subtle text-foreground text-xs font-medium"
               >
                 {att.type === "image" ? <Image size={12} /> : <File size={12} />}
                 <span className="max-w-[120px] truncate">{att.name}</span>
@@ -61,7 +61,7 @@ const ChatInput = ({ onSend, disabled, onActionsOpen, onSettingsOpen, webEnabled
       </AnimatePresence>
 
       {/* Input area */}
-      <div className="rounded-2xl border border-border bg-card shadow-sm overflow-hidden">
+      <div className="rounded-2xl glass overflow-hidden">
         <div className="flex items-center gap-1 px-2 py-1">
           <textarea
             value={value}
@@ -87,19 +87,19 @@ const ChatInput = ({ onSend, disabled, onActionsOpen, onSettingsOpen, webEnabled
             <motion.button
               whileTap={{ scale: 0.9 }}
               onClick={onActionsOpen}
-              className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
+              className="p-2 rounded-xl text-muted-foreground hover:text-foreground hover:bg-[rgba(255,255,255,0.4)] transition-all"
             >
               <Plus size={18} />
             </motion.button>
             <motion.button
               whileTap={{ scale: 0.9 }}
               onClick={onSettingsOpen}
-              className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
+              className="p-2 rounded-xl text-muted-foreground hover:text-foreground hover:bg-[rgba(255,255,255,0.4)] transition-all"
             >
               <SlidersHorizontal size={16} />
             </motion.button>
             {webEnabled && (
-              <span className="text-[10px] px-2 py-1 rounded-full bg-primary/10 text-primary font-semibold">
+              <span className="text-[10px] px-2 py-1 rounded-full glass-subtle text-primary font-semibold">
                 Web
               </span>
             )}
@@ -110,7 +110,7 @@ const ChatInput = ({ onSend, disabled, onActionsOpen, onSettingsOpen, webEnabled
               whileTap={{ scale: 0.9 }}
               onClick={handleSend}
               disabled={disabled}
-              className="p-2 rounded-lg bg-primary text-primary-foreground disabled:opacity-40"
+              className="p-2 rounded-xl bg-primary/80 backdrop-blur-xl text-primary-foreground disabled:opacity-40 border border-[rgba(255,255,255,0.3)]"
             >
               <Send size={16} />
             </motion.button>

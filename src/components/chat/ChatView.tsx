@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Menu, ChevronDown, Sparkles } from "lucide-react";
+import { Menu, ChevronDown, Sparkles, EyeOff, Eye } from "lucide-react";
 import ChatBubble from "./ChatBubble";
 import ChatInput from "./ChatInput";
 import TypingIndicator from "./TypingIndicator";
@@ -43,6 +43,7 @@ const ChatView = ({ title, hasMessages, onMenuOpen }: ChatViewProps) => {
   const [settingsDrawerOpen, setSettingsDrawerOpen] = useState(false);
   const [actionsDrawerOpen, setActionsDrawerOpen] = useState(false);
   const [webEnabled, setWebEnabled] = useState(false);
+  const [incognito, setIncognito] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const imageRef = useRef<HTMLInputElement>(null);
@@ -91,26 +92,54 @@ const ChatView = ({ title, hasMessages, onMenuOpen }: ChatViewProps) => {
         <motion.button whileTap={{ scale: 0.9 }} onClick={onMenuOpen} className="p-2 -ml-2">
           <Menu size={22} className="text-foreground" />
         </motion.button>
-        <button
-          onClick={() => setModelDrawerOpen(true)}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-secondary"
-        >
-          <span className="text-[13px] font-semibold text-foreground">{selectedModelName}</span>
-          <ChevronDown size={14} className="text-muted-foreground" />
-        </button>
-        <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center">
-          <span className="text-xs font-semibold text-secondary-foreground">U</span>
+        <div className="flex flex-col items-center">
+          <button
+            onClick={() => setModelDrawerOpen(true)}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-secondary"
+          >
+            <span className="text-[13px] font-semibold text-foreground">{selectedModelName}</span>
+            <ChevronDown size={14} className="text-muted-foreground" />
+          </button>
+          {incognito && (
+            <span className="text-[11px] text-muted-foreground mt-0.5">Incognito chat</span>
+          )}
         </div>
+        <motion.button
+          whileTap={{ scale: 0.9 }}
+          onClick={() => setIncognito(!incognito)}
+          className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${
+            incognito ? "bg-primary/10" : "bg-secondary"
+          }`}
+        >
+          {incognito ? (
+            <EyeOff size={18} className="text-primary" />
+          ) : (
+            <Eye size={18} className="text-muted-foreground" />
+          )}
+        </motion.button>
       </div>
 
       {/* Content */}
       {messages.length === 0 ? (
         <div className="flex-1 flex flex-col items-center justify-center px-8">
-          <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-6">
-            <Sparkles size={28} className="text-primary" />
-          </div>
-          <h2 className="text-xl font-semibold text-foreground mb-1">{greeting()},</h2>
-          <p className="text-muted-foreground text-center">How can I help you today?</p>
+          {incognito ? (
+            <>
+              <div className="w-14 h-14 rounded-2xl bg-muted flex items-center justify-center mb-6">
+                <EyeOff size={28} className="text-muted-foreground" />
+              </div>
+              <p className="text-sm text-muted-foreground text-center max-w-[280px] leading-relaxed">
+                Incognito chats can't access memory. They aren't saved to history, added to memory, or used to train models.
+              </p>
+            </>
+          ) : (
+            <>
+              <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-6">
+                <Sparkles size={28} className="text-primary" />
+              </div>
+              <h2 className="text-xl font-semibold text-foreground mb-1">{greeting()},</h2>
+              <p className="text-muted-foreground text-center">How can I help you today?</p>
+            </>
+          )}
         </div>
       ) : (
         <div ref={scrollRef} className="flex-1 overflow-y-auto scrollbar-none px-4 py-4">

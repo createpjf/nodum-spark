@@ -4,6 +4,9 @@ import { Menu, ChevronDown, Sparkles } from "lucide-react";
 import ChatBubble from "./ChatBubble";
 import ChatInput from "./ChatInput";
 import TypingIndicator from "./TypingIndicator";
+import ModelSelectorDrawer from "./ModelSelectorDrawer";
+import SettingsDrawer from "./SettingsDrawer";
+import ActionsDrawer from "./ActionsDrawer";
 
 interface Message {
   id: string;
@@ -20,7 +23,7 @@ interface ChatViewProps {
 }
 
 const initialMessages: Message[] = [
-  { id: "1", role: "assistant", content: "Hey! I'm Nodum, your AI assistant. I can help you with research, writing, coding, analysis, and creative tasks. What would you like to explore?", timestamp: "09:41" },
+  { id: "1", role: "assistant", content: "Hey! I'm FLock Chat, your AI assistant. I can help you with research, writing, coding, analysis, and creative tasks. What would you like to explore?", timestamp: "09:41" },
   { id: "2", role: "user", content: "Help me understand how transformer architectures work in modern LLMs", timestamp: "09:42" },
   { id: "3", role: "assistant", content: "Great question! Transformer architectures are the backbone of modern large language models. Here's a breakdown:\n\n• Self-Attention Mechanism — allows the model to weigh the importance of different words in a sequence relative to each other\n\n• Multi-Head Attention — runs multiple attention operations in parallel, capturing different types of relationships\n\n• Feed-Forward Networks — process the attention outputs through dense layers\n\n• Positional Encoding — since transformers process all tokens simultaneously, positional info is added to maintain sequence order\n\nWant me to dive deeper into any of these components?", timestamp: "09:42" },
 ];
@@ -34,7 +37,15 @@ const aiResponses = [
 const ChatView = ({ title, hasMessages, onMenuOpen }: ChatViewProps) => {
   const [messages, setMessages] = useState<Message[]>(hasMessages ? initialMessages : []);
   const [isTyping, setIsTyping] = useState(false);
+  const [selectedModel, setSelectedModel] = useState("gemini-3-pro");
+  const [selectedModelName, setSelectedModelName] = useState("Gemini 3 Pro");
+  const [modelDrawerOpen, setModelDrawerOpen] = useState(false);
+  const [settingsDrawerOpen, setSettingsDrawerOpen] = useState(false);
+  const [actionsDrawerOpen, setActionsDrawerOpen] = useState(false);
+  const [webEnabled, setWebEnabled] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const fileRef = useRef<HTMLInputElement>(null);
+  const imageRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     setMessages(hasMessages ? initialMessages : []);
@@ -80,8 +91,11 @@ const ChatView = ({ title, hasMessages, onMenuOpen }: ChatViewProps) => {
         <motion.button whileTap={{ scale: 0.9 }} onClick={onMenuOpen} className="p-2 -ml-2">
           <Menu size={22} className="text-foreground" />
         </motion.button>
-        <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-secondary">
-          <span className="text-[13px] font-semibold text-foreground">Gemini 3 Pro</span>
+        <button
+          onClick={() => setModelDrawerOpen(true)}
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-secondary"
+        >
+          <span className="text-[13px] font-semibold text-foreground">{selectedModelName}</span>
           <ChevronDown size={14} className="text-muted-foreground" />
         </button>
         <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center">
@@ -109,7 +123,40 @@ const ChatView = ({ title, hasMessages, onMenuOpen }: ChatViewProps) => {
         </div>
       )}
 
-      <ChatInput onSend={handleSend} disabled={isTyping} />
+      <ChatInput
+        onSend={handleSend}
+        disabled={isTyping}
+        onActionsOpen={() => setActionsDrawerOpen(true)}
+        onSettingsOpen={() => setSettingsDrawerOpen(true)}
+        webEnabled={webEnabled}
+      />
+
+      {/* Hidden file inputs */}
+      <input ref={fileRef} type="file" className="hidden" multiple />
+      <input ref={imageRef} type="file" accept="image/*" className="hidden" multiple />
+
+      {/* Drawers */}
+      <ModelSelectorDrawer
+        open={modelDrawerOpen}
+        onClose={() => setModelDrawerOpen(false)}
+        selectedModel={selectedModel}
+        onSelectModel={(id, name) => {
+          setSelectedModel(id);
+          setSelectedModelName(name);
+        }}
+      />
+      <SettingsDrawer
+        open={settingsDrawerOpen}
+        onClose={() => setSettingsDrawerOpen(false)}
+        webEnabled={webEnabled}
+        onWebToggle={setWebEnabled}
+      />
+      <ActionsDrawer
+        open={actionsDrawerOpen}
+        onClose={() => setActionsDrawerOpen(false)}
+        onFileSelect={() => fileRef.current?.click()}
+        onImageSelect={() => imageRef.current?.click()}
+      />
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import { MessageSquare, FolderOpen, Box, Code, Briefcase, Star, Plus } from "lucide-react";
+import { MessageSquare, FolderOpen, Briefcase, Star, Plus, Sparkles, User } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 interface Conversation {
   id: string;
@@ -26,16 +27,16 @@ interface ConversationListProps {
 const navItems = [
   { icon: MessageSquare, label: "Chats" },
   { icon: FolderOpen, label: "Projects" },
-  { icon: Box, label: "Artifacts" },
-  { icon: Code, label: "Code" },
 ];
 
 const ConversationList = ({ conversations, starredProjects, activeId, onSelect, onNew }: ConversationListProps) => {
+  const navigate = useNavigate();
+
   return (
     <div className="flex flex-col h-full bg-background border-r border-border">
       {/* Brand */}
       <div className="px-6 pt-14 pb-4">
-        <h1 className="text-2xl font-bold text-foreground tracking-tight">Nodum</h1>
+        <h1 className="text-2xl font-bold text-foreground tracking-tight">FLock Chat</h1>
       </div>
 
       {/* Nav items */}
@@ -49,6 +50,19 @@ const ConversationList = ({ conversations, starredProjects, activeId, onSelect, 
             {item.label}
           </button>
         ))}
+      </div>
+
+      <div className="h-px bg-border mx-5 my-2" />
+
+      {/* Upgrade to Pro */}
+      <div className="px-4 mb-2">
+        <button
+          onClick={() => navigate("/subscription")}
+          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium hover:bg-primary/5 transition-colors"
+        >
+          <Sparkles size={18} className="text-primary" />
+          <span className="text-primary font-semibold">Upgrade to Pro</span>
+        </button>
       </div>
 
       <div className="h-px bg-border mx-5 my-2" />
@@ -87,12 +101,15 @@ const ConversationList = ({ conversations, starredProjects, activeId, onSelect, 
 
       {/* Bottom bar */}
       <div className="px-5 pb-8 pt-3 flex items-center justify-between border-t border-border">
-        <div className="flex items-center gap-3">
+        <button
+          onClick={() => navigate("/profile")}
+          className="flex items-center gap-3 hover:opacity-80 transition-opacity"
+        >
           <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center">
-            <span className="text-xs font-semibold text-secondary-foreground">U</span>
+            <User size={14} className="text-secondary-foreground" />
           </div>
           <span className="text-sm font-medium text-foreground">User</span>
-        </div>
+        </button>
         <motion.button
           whileTap={{ scale: 0.9 }}
           onClick={onNew}

@@ -23,7 +23,7 @@ const ChatBubble = ({ role, content, timestamp }: ChatBubbleProps) => {
             <div className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center">
               <Sparkles size={11} className="text-primary" />
             </div>
-            <span className="text-xs text-muted-foreground font-medium">Nodum</span>
+            <span className="text-xs text-muted-foreground font-medium">FLock</span>
           </div>
         )}
         <div

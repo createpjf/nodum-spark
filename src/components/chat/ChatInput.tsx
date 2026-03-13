@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Send, Paperclip, Mic } from "lucide-react";
+import { Send, Mic } from "lucide-react";
 import { motion } from "framer-motion";
 
 interface ChatInputProps {
@@ -18,10 +18,7 @@ const ChatInput = ({ onSend, disabled }: ChatInputProps) => {
 
   return (
     <div className="px-4 pb-8 pt-2">
-      <div className="glass-subtle rounded-2xl flex items-end gap-2 p-2">
-        <button className="p-2 text-muted-foreground hover:text-foreground transition-colors shrink-0">
-          <Paperclip size={18} />
-        </button>
+      <div className="rounded-full border border-border bg-card flex items-center gap-1 px-4 py-1 shadow-sm">
         <textarea
           value={value}
           onChange={(e) => setValue(e.target.value)}
@@ -31,21 +28,24 @@ const ChatInput = ({ onSend, disabled }: ChatInputProps) => {
               handleSend();
             }
           }}
-          placeholder="Message Nodum..."
+          placeholder="Chat with Nodum..."
           rows={1}
-          className="flex-1 bg-transparent resize-none text-[14px] text-foreground placeholder:text-muted-foreground outline-none py-2 px-1 max-h-32 scrollbar-none"
+          className="flex-1 bg-transparent resize-none text-[14px] text-foreground placeholder:text-muted-foreground outline-none py-2.5 max-h-32 scrollbar-none"
         />
-        <button className="p-2 text-muted-foreground hover:text-foreground transition-colors shrink-0">
-          <Mic size={18} />
-        </button>
-        <motion.button
-          whileTap={{ scale: 0.92 }}
-          onClick={handleSend}
-          disabled={!value.trim() || disabled}
-          className="p-2 rounded-xl bg-foreground/10 hover:bg-foreground/15 text-foreground transition-colors shrink-0 disabled:opacity-30"
-        >
-          <Send size={16} />
-        </motion.button>
+        {value.trim() ? (
+          <motion.button
+            whileTap={{ scale: 0.9 }}
+            onClick={handleSend}
+            disabled={disabled}
+            className="p-2 rounded-full bg-primary text-primary-foreground disabled:opacity-40"
+          >
+            <Send size={16} />
+          </motion.button>
+        ) : (
+          <button className="p-2 text-muted-foreground">
+            <Mic size={18} />
+          </button>
+        )}
       </div>
     </div>
   );

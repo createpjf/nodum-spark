@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@100;400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@100;400&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,47 +6,86 @@
 
 @layer base {
   :root {
-    --background: 40 7% 95%;
-    --foreground: 0 0% 16%;
+    --background: 43 19% 93%;
+    --foreground: 0 0% 10%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 16%;
+    --card: 45 33% 95%;
+    --card-foreground: 0 0% 10%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 16%;
+    --popover-foreground: 0 0% 10%;
 
-    --primary: 220 100% 60%;
+    --primary: 223 78% 57%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 228 25% 91%;
-    --secondary-foreground: 0 0% 25%;
+    --secondary: 180 2% 92%;
+    --secondary-foreground: 60 1% 29%;
 
-    --muted: 40 5% 92%;
-    --muted-foreground: 0 0% 54%;
+    --muted: 43 19% 93%;
+    --muted-foreground: 40 5% 50%;
 
-    --accent: 40 7% 95%;
-    --accent-foreground: 0 0% 16%;
+    --accent: 221 73% 95%;
+    --accent-foreground: 0 0% 10%;
 
-    --destructive: 0 84% 60%;
+    --destructive: 14 56% 50%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 228 15% 90%;
-    --input: 228 15% 90%;
-    --ring: 220 100% 60%;
+    --border: 40 10% 83%;
+    --input: 40 10% 83%;
+    --ring: 223 78% 57%;
 
     --radius: 1rem;
 
-    --font-sans: 'Inter', -apple-system, sans-serif;
+    --font-sans: 'Instrument Sans', -apple-system, sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
 
-    --sidebar-background: 40 7% 96%;
-    --sidebar-foreground: 0 0% 20%;
-    --sidebar-primary: 220 100% 60%;
+    --sidebar-background: 45 33% 95%;
+    --sidebar-foreground: 0 0% 10%;
+    --sidebar-primary: 223 78% 57%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 228 25% 93%;
-    --sidebar-accent-foreground: 0 0% 16%;
-    --sidebar-border: 228 15% 90%;
-    --sidebar-ring: 220 100% 60%;
+    --sidebar-accent: 221 73% 95%;
+    --sidebar-accent-foreground: 0 0% 10%;
+    --sidebar-border: 180 2% 92%;
+    --sidebar-ring: 223 78% 57%;
+  }
+
+  .dark {
+    --background: 60 3% 8%;
+    --foreground: 43 19% 93%;
+
+    --card: 60 3% 10%;
+    --card-foreground: 43 19% 93%;
+
+    --popover: 60 2% 12%;
+    --popover-foreground: 43 19% 93%;
+
+    --primary: 224 100% 68%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 60 2% 15%;
+    --secondary-foreground: 40 6% 83%;
+
+    --muted: 60 3% 10%;
+    --muted-foreground: 60 2% 53%;
+
+    --accent: 60 3% 15%;
+    --accent-foreground: 43 19% 93%;
+
+    --destructive: 14 63% 59%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 60 2% 23%;
+    --input: 60 2% 23%;
+    --ring: 224 100% 68%;
+
+    --sidebar-background: 60 3% 7%;
+    --sidebar-foreground: 43 19% 93%;
+    --sidebar-primary: 224 100% 68%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 60 3% 15%;
+    --sidebar-accent-foreground: 43 19% 93%;
+    --sidebar-border: 60 2% 15%;
+    --sidebar-ring: 224 100% 68%;
   }
 }
 
@@ -55,12 +94,85 @@
     @apply border-border;
   }
 
+  :focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+  }
+
+  html, body, #root {
+    overflow-x: hidden;
+    max-width: 100%;
+  }
+
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    /* Liquid Glass Tokens */
+    --glass-bg: rgba(240, 238, 233, 0.45);
+    --glass-blur: 20px;
+    --glass-saturation: 1.8;
+    --glass-border: rgba(240, 238, 233, 0.35);
+    --glass-shadow: 0 8px 32px rgba(26, 26, 26, 0.06);
+    --glass-highlight: rgba(255, 255, 255, 0.30);
+    --glass-radius: 22px;
   }
+}
+
+/* Liquid Glass Surfaces */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow), inset 0 1px 0 var(--glass-highlight);
+}
+
+.glass-subtle {
+  background: rgba(240, 238, 233, 0.10);
+  backdrop-filter: blur(12px) saturate(1.5);
+  -webkit-backdrop-filter: blur(12px) saturate(1.5);
+  border: 1px solid rgba(240, 238, 233, 0.15);
+}
+
+.glass-interactive {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.glass-interactive:hover {
+  transform: scale(1.02);
+  box-shadow: 0 12px 40px rgba(26, 26, 26, 0.10), inset 0 1px 0 var(--glass-highlight);
+}
+.glass-interactive:active {
+  transform: scale(0.97);
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .glass, .glass-subtle {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(240, 238, 233, 0.85);
+  }
+  .dark .glass, .dark .glass-subtle {
+    background: rgba(20, 20, 19, 0.90);
+  }
+}
+
+/* Dark mode glass overrides */
+.dark body {
+  --glass-bg: rgba(20, 20, 19, 0.45);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  --glass-highlight: rgba(255, 255, 255, 0.05);
+}
+
+.dark .glass-subtle {
+  background: rgba(30, 30, 28, 0.40);
+  border-color: rgba(255, 255, 255, 0.06);
+}
+
+.dark .glass-interactive:hover {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.20), inset 0 1px 0 var(--glass-highlight);
 }
 
 @layer utilities {
@@ -74,5 +186,37 @@
   }
   .scrollbar-none::-webkit-scrollbar {
     display: none;
+  }
+
+  /* Safe-area aware header padding: 12px on web, status-bar + 12px on iOS */
+  .safe-header {
+    padding-top: calc(env(safe-area-inset-top) + 12px);
+  }
+
+  /* Safe-area aware bottom padding for iOS home indicator */
+  .safe-bottom {
+    padding-bottom: calc(env(safe-area-inset-bottom) + 32px);
+  }
+}
+
+@keyframes word-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pill-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }

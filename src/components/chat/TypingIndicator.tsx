@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Sparkles } from "lucide-react";
 
 const TypingIndicator = () => (
-  <div className="flex justify-start mb-4">
+  <div className="flex justify-start mb-5">
     <div className="flex items-center gap-2 px-1">
       <div className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center">
         <Sparkles size={11} className="text-primary" />

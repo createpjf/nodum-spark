@@ -20,10 +20,16 @@ const starredProjects = [
 const Index = () => {
   const [activeChat, setActiveChat] = useState<string | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [activeProject, setActiveProject] = useState<{ id: string; name: string } | null>(null);
   const activeConv = conversations.find((c) => c.id === activeChat);
 
   return (
-    <div className="h-screen w-screen max-w-[430px] mx-auto overflow-hidden relative bg-background">
+    <motion.div
+      initial={false}
+      exit={{ opacity: 0, transition: { duration: 0.12 } }}
+      transition={{ duration: 0.2, ease: [0.32, 0.72, 0, 1] }}
+      className="h-screen w-screen max-w-full md:max-w-[600px] mx-auto overflow-hidden relative bg-background"
+    >
       {/* Sidebar overlay */}
       <AnimatePresence>
         {sidebarOpen && (
@@ -40,8 +46,8 @@ const Index = () => {
               initial={{ x: "-100%" }}
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
-              transition={{ type: "spring", damping: 30, stiffness: 300 }}
-              className="absolute inset-y-0 left-0 w-[85%] z-50"
+              transition={{ duration: 0.32, ease: [0.32, 0.72, 0, 1] }}
+              className="absolute inset-y-0 left-0 w-[78%] z-50 overflow-hidden"
             >
               <ConversationList
                 conversations={conversations}
@@ -55,6 +61,11 @@ const Index = () => {
                   setActiveChat("new");
                   setSidebarOpen(false);
                 }}
+                onProjectSelect={(project) => {
+                  setActiveProject(project);
+                  setActiveChat("new");
+                  setSidebarOpen(false);
+                }}
               />
             </motion.div>
           </>
@@ -62,13 +73,26 @@ const Index = () => {
       </AnimatePresence>
 
       {/* Main chat view */}
-      <ChatView
-        title={activeConv?.title || ""}
-        hasMessages={!!activeChat && activeChat !== "new"}
-        onMenuOpen={() => setSidebarOpen(true)}
-        onBack={() => setActiveChat(null)}
-      />
-    </div>
+      <motion.div
+        animate={sidebarOpen
+          ? { scale: 0.92, x: "12%", borderRadius: "20px", opacity: 0.85 }
+          : { scale: 1, x: "0%", borderRadius: "0px", opacity: 1 }}
+        transition={{ duration: 0.32, ease: [0.32, 0.72, 0, 1] }}
+        className="absolute inset-0 overflow-hidden bg-background"
+        style={{ transformOrigin: "left center", willChange: "transform" }}
+      >
+        <ChatView
+          title={activeConv?.title || (activeProject?.name ? `${activeProject.name}` : "")}
+          hasMessages={!!activeChat && activeChat !== "new"}
+          onMenuOpen={() => setSidebarOpen(true)}
+          onBack={() => setActiveChat(null)}
+          onNewChat={() => {
+            setActiveChat("new");
+            setSidebarOpen(false);
+          }}
+        />
+      </motion.div>
+    </motion.div>
   );
 };
 

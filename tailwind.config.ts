@@ -14,7 +14,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ["'Inter'", "-apple-system", "sans-serif"],
+        sans: ["'Instrument Sans'", "-apple-system", "sans-serif"],
         mono: ["'JetBrains Mono'", "monospace"],
       },
       colors: {
@@ -62,6 +62,11 @@ export default {
           ring: "hsl(var(--sidebar-ring))",
         },
       },
+      boxShadow: {
+        'cloud-sm': '0 1px 3px rgba(26, 26, 26, 0.04)',
+        'cloud-md': '0 4px 12px rgba(26, 26, 26, 0.06)',
+        'cloud-lg': '0 8px 24px rgba(26, 26, 26, 0.08)',
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
@@ -88,5 +93,5 @@ export default {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
 } satisfies Config;
